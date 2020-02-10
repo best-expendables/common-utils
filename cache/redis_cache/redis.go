@@ -1,4 +1,4 @@
-package redis
+package redis_cache
 
 import (
 	"bitbucket.org/snapmartinc/common-utils/cache"
