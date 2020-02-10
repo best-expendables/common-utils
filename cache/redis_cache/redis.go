@@ -9,34 +9,34 @@ import (
 )
 
 type Redis struct {
-	client *redis.Client
-	codec  *redisCache.Codec
-	prefix string
-	ttl    time.Duration
+	Client *redis.Client
+	Codec  *redisCache.Codec
+	Prefix string
+	Ttl    time.Duration
 }
 
 func NewRedis(c *redis.Client, prefix string, ttl time.Duration) *Redis {
 	return &Redis{
-		client: c,
-		codec:  NewRedisCodec(c),
-		prefix: prefix,
-		ttl:    ttl,
+		Client: c,
+		Codec:  NewRedisCodec(c),
+		Prefix: prefix,
+		Ttl:    ttl,
 	}
 }
 
 func NewRedisCacheCreateFunc(prefix string, ttl time.Duration) func(c *redis.Client) *Redis {
 	return func(c *redis.Client) *Redis {
 		return &Redis{
-			client: c,
-			codec:  NewRedisCodec(c),
-			prefix: prefix,
-			ttl:    ttl,
+			Client: c,
+			Codec:  NewRedisCodec(c),
+			Prefix: prefix,
+			Ttl:    ttl,
 		}
 	}
 }
 
 func (r *Redis) Get(key string, obj interface{}) error {
-	err := r.codec.Get(r.cacheKey(key), obj)
+	err := r.Codec.Get(r.cacheKey(key), obj)
 	if err == redisCache.ErrCacheMiss {
 		return cache.Nil
 	}
@@ -44,7 +44,7 @@ func (r *Redis) Get(key string, obj interface{}) error {
 }
 
 func (r *Redis) MGet(keys ...string) ([]interface{}, error) {
-	result, err := r.client.MGet(r.cacheKeys(keys...)...).Result()
+	result, err := r.Client.MGet(r.cacheKeys(keys...)...).Result()
 	for i := range result {
 		if result[i] == nil {
 			return nil, cache.Nil
@@ -57,19 +57,19 @@ func (r *Redis) MGet(keys ...string) ([]interface{}, error) {
 }
 
 func (r *Redis) Set(key string, obj interface{}) error {
-	return r.codec.Set(&redisCache.Item{
+	return r.Codec.Set(&redisCache.Item{
 		Key:        r.cacheKey(key),
 		Object:     obj,
-		Expiration: r.ttl,
+		Expiration: r.Ttl,
 	})
 }
 
 func (r *Redis) MSet(obj ...interface{}) error {
-	return r.client.MSet(obj...).Err()
+	return r.Client.MSet(obj...).Err()
 }
 
 func (r *Redis) Delete(key string) error {
-	err := r.codec.Delete(r.cacheKey(key))
+	err := r.Codec.Delete(r.cacheKey(key))
 	if err == redisCache.ErrCacheMiss {
 		return cache.Nil
 	}
@@ -77,12 +77,12 @@ func (r *Redis) Delete(key string) error {
 }
 
 func (r *Redis) cacheKey(key string) string {
-	return r.prefix + "/" + key
+	return r.Prefix + "/" + key
 }
 
 func (r *Redis) cacheKeys(keys ...string) []string {
 	for i := range keys {
-		keys[i] = r.prefix + "/" + keys[i]
+		keys[i] = r.Prefix + "/" + keys[i]
 	}
 	return keys
 }
