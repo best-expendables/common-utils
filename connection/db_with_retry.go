@@ -9,14 +9,14 @@ import (
 	"time"
 )
 
-type DBRetryConf struct {
+type dbRetryConf struct {
 	ErrMsgKey string
 	Retry     int
 	Delay     time.Duration
 }
 
-type DBWithRetry struct {
-	retryConf []DBRetryConf
+type dbWithRetry struct {
+	retryConf []dbRetryConf
 	*sql.DB
 }
 
@@ -26,23 +26,23 @@ type DBWithRetryConf struct {
 }
 
 //Define DBRetryConf
-func makeRetryConfig(conf DBWithRetryConf) []DBRetryConf {
-	var retryConf []DBRetryConf
+func makeRetryConfig(conf DBWithRetryConf) []dbRetryConf {
+	var retryConf []dbRetryConf
 	// Connection Reset By Peer
-	retryConf = append(retryConf, DBRetryConf{"connection reset by peer", conf.DefaultRetry, conf.DefaultDelay})
-	retryConf = append(retryConf, DBRetryConf{"write: broken pipe", conf.DefaultRetry, conf.DefaultDelay})
+	retryConf = append(retryConf, dbRetryConf{"connection reset by peer", conf.DefaultRetry, conf.DefaultDelay})
+	retryConf = append(retryConf, dbRetryConf{"write: broken pipe", conf.DefaultRetry, conf.DefaultDelay})
 	//....
 	return retryConf
 }
 
-func NewDBWithRetry(db *sql.DB, conf DBWithRetryConf) DBWithRetry {
-	return DBWithRetry{
+func NewDBWithRetry(db *sql.DB, conf DBWithRetryConf) dbWithRetry {
+	return dbWithRetry{
 		retryConf: makeRetryConfig(conf),
 		DB:        db,
 	}
 }
 
-func (d DBWithRetry) Exec(query string, args ...interface{}) (sql.Result, error) {
+func (d dbWithRetry) Exec(query string, args ...interface{}) (sql.Result, error) {
 	result, err := d.DB.Exec(query, args...)
 	err = d.retry(func() error {
 		result, err = d.DB.Exec(query, args...)
@@ -51,7 +51,7 @@ func (d DBWithRetry) Exec(query string, args ...interface{}) (sql.Result, error)
 	return result, err
 }
 
-func (d DBWithRetry) Prepare(query string) (*sql.Stmt, error) {
+func (d dbWithRetry) Prepare(query string) (*sql.Stmt, error) {
 	result, err := d.DB.Prepare(query)
 	err = d.retry(func() error {
 		result, err = d.DB.Prepare(query)
@@ -60,7 +60,7 @@ func (d DBWithRetry) Prepare(query string) (*sql.Stmt, error) {
 	return result, err
 }
 
-func (d DBWithRetry) Query(query string, args ...interface{}) (*sql.Rows, error) {
+func (d dbWithRetry) Query(query string, args ...interface{}) (*sql.Rows, error) {
 	result, err := d.DB.Query(query, args...)
 	err = d.retry(func() error {
 		result, err = d.DB.Query(query, args...)
@@ -68,11 +68,11 @@ func (d DBWithRetry) Query(query string, args ...interface{}) (*sql.Rows, error)
 	}, err)
 	return result, err
 }
-func (d DBWithRetry) QueryRow(query string, args ...interface{}) *sql.Row {
+func (d dbWithRetry) QueryRow(query string, args ...interface{}) *sql.Row {
 	return d.DB.QueryRow(query, args...)
 }
 
-func (d DBWithRetry) BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error) {
+func (d dbWithRetry) BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error) {
 	result, err := d.DB.BeginTx(ctx, opts)
 	err = d.retry(func() error {
 		result, err = d.DB.BeginTx(ctx, opts)
@@ -81,7 +81,7 @@ func (d DBWithRetry) BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx,
 	return result, err
 }
 
-func (d DBWithRetry) retry(f func() error, err error) error {
+func (d dbWithRetry) retry(f func() error, err error) error {
 	if err == nil {
 		return nil
 	}

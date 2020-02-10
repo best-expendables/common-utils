@@ -64,7 +64,7 @@ func (r *Redis) Set(key string, obj interface{}) error {
 	})
 }
 
-func (r *Redis) MSet(obj []interface{}) error {
+func (r *Redis) MSet(obj ...interface{}) error {
 	return r.client.MSet(obj...).Err()
 }
 
