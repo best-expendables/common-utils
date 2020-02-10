@@ -20,13 +20,13 @@ type DBWithRetry struct {
 	*sql.DB
 }
 
-type PostgresConfig struct {
+type DBWithRetryConf struct {
 	DefaultRetry int
 	DefaultDelay time.Duration
 }
 
 //Define DBRetryConf
-func makeRetryConfig(conf PostgresConfig) []DBRetryConf {
+func makeRetryConfig(conf DBWithRetryConf) []DBRetryConf {
 	var retryConf []DBRetryConf
 	// Connection Reset By Peer
 	retryConf = append(retryConf, DBRetryConf{"connection reset by peer", conf.DefaultRetry, conf.DefaultDelay})
@@ -35,7 +35,7 @@ func makeRetryConfig(conf PostgresConfig) []DBRetryConf {
 	return retryConf
 }
 
-func NewDBWithRetry(db *sql.DB, conf PostgresConfig) DBWithRetry {
+func NewDBWithRetry(db *sql.DB, conf DBWithRetryConf) DBWithRetry {
 	return DBWithRetry{
 		retryConf: makeRetryConfig(conf),
 		DB:        db,
