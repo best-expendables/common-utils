@@ -64,6 +64,30 @@ func (r *Redis) Set(key string, obj interface{}) error {
 	})
 }
 
+func (r *Redis) HSet(key string, field string, obj interface{}) error {
+	_, err := r.Client.HSet(r.cacheKey(key), field, obj).Result()
+
+	return err
+}
+
+func (r *Redis) HGet(key string, field string) (string, error) {
+	hGet := r.Client.HGet(r.cacheKey(key), field)
+	if err := hGet.Err(); err != nil {
+		return "", err
+	}
+
+	return hGet.Val(), nil
+}
+
+func (r *Redis) HGetAll(key string) (map[string]string, error) {
+	hGetAll := r.Client.HGetAll(r.cacheKey(key))
+	if err := hGetAll.Err(); err != nil {
+		return nil, err
+	}
+
+	return hGetAll.Val(), nil
+}
+
 func (r *Redis) MSet(obj ...interface{}) error {
 	return r.Client.MSet(obj...).Err()
 }
