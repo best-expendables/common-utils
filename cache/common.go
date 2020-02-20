@@ -16,4 +16,5 @@ type Cache interface {
 	HGetAll(key string) (map[string]string, error)
 	Delete(key string) error
 	ScanD(match string) error
+	HExpire(key string) error
 }

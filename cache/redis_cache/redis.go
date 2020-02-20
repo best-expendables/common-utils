@@ -112,6 +112,11 @@ func (r *Redis) ScanD(match string) error {
 	return nil
 }
 
+func (r *Redis) HExpire(key string) error {
+	_, err := r.Client.Expire(r.cacheKey(key), r.Ttl).Result()
+	return err
+}
+
 func (r *Redis) cacheKey(key string) string {
 	return r.Prefix + "/" + key
 }
