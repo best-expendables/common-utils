@@ -100,6 +100,18 @@ func (r *Redis) Delete(key string) error {
 	return err
 }
 
+func (r *Redis) ScanD(match string) error {
+	scan := r.Client.Scan(0, r.cacheKey(match), 0).Iterator()
+	for scan.Next() {
+		err := r.Client.Del(scan.Val()).Err()
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (r *Redis) cacheKey(key string) string {
 	return r.Prefix + "/" + key
 }
