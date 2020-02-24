@@ -1,10 +1,10 @@
 package connection
 
 import (
+	"bitbucket.org/snapmartinc/logger"
 	"context"
 	"database/sql"
 	"github.com/pkg/errors"
-	"log"
 	"strings"
 	"time"
 )
@@ -92,7 +92,7 @@ func (d dbWithRetry) retry(f func() error, err error) error {
 				if err == nil {
 					return nil
 				}
-				log.Fatal(errors.Wrap(err, "DB Retry Error"))
+				logger.Error(errors.Wrap(err, "DB Retry Error"))
 				time.Sleep(retryConf.Delay)
 			}
 		}
