@@ -4,8 +4,8 @@ import (
 	"bitbucket.org/snapmartinc/common-utils/cache"
 	"time"
 
-	redisCache "github.com/go-redis/cache"
-	"github.com/go-redis/redis"
+	redisCache "github.com/go-redis/cache/v7"
+	"github.com/go-redis/redis/v7"
 )
 
 type Redis struct {
