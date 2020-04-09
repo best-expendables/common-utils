@@ -2,8 +2,9 @@ package _example
 
 import (
 	"bitbucket.org/snapmartinc/common-utils/cache/redis_cache"
+	"context"
 	"fmt"
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 	"time"
 )
 
@@ -27,7 +28,7 @@ func main() {
 	var data interface{}
 
 	// Redis set value
-	if err := redisClient.Set("redis_key", "redis_value"); err != nil {
+	if err := redisClient.Set(context.Background(),"redis_key", "redis_value"); err != nil {
 		fmt.Println(err)
 	}
 
@@ -35,22 +36,22 @@ func main() {
 	mSetObj := make(map[string]interface{})
 	mSetObj["redis_key_001"] = "redis_value_001"
 	mSetObj["redis_key_002"] = "redis_value_002"
-	if err := redisClient.MSet(mSetObj); err != nil {
+	if err := redisClient.MSet(context.Background(), mSetObj); err != nil {
 		fmt.Println(err)
 	}
 
 	// Redis get value
-	if err := redisClient.Get("redis_key", &data); err != nil {
+	if err := redisClient.Get(context.Background(), "redis_key", &data); err != nil {
 		fmt.Println(err)
 	}
 
 	// Redis MGet value
-	if _, err := redisClient.MGet("redis_key_001", "redis_key_002"); err != nil {
+	if _, err := redisClient.MGet(context.Background(), "redis_key_001", "redis_key_002"); err != nil {
 		fmt.Println(err)
 	}
 
 	// Redis delete value
-	if err := redisClient.Delete("redis_key"); err != nil {
+	if err := redisClient.Delete(context.Background(), "redis_key"); err != nil {
 		fmt.Println(err)
 	}
 }

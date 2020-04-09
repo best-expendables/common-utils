@@ -2,15 +2,16 @@ package redis_cache
 
 import (
 	"bitbucket.org/snapmartinc/common-utils/cache"
+	"context"
 	"time"
 
-	redisCache "github.com/go-redis/cache/v7"
-	"github.com/go-redis/redis/v7"
+	redisCache "github.com/go-redis/cache/v8"
+	"github.com/go-redis/redis/v8"
 )
 
 type Redis struct {
 	Client *redis.Client
-	Codec  *redisCache.Codec
+	Cache  *redisCache.Cache
 	Prefix string
 	Ttl    time.Duration
 }
@@ -18,7 +19,7 @@ type Redis struct {
 func NewRedis(c *redis.Client, prefix string, ttl time.Duration) *Redis {
 	return &Redis{
 		Client: c,
-		Codec:  NewRedisCodec(c),
+		Cache:  NewRedisCache(c),
 		Prefix: prefix,
 		Ttl:    ttl,
 	}
@@ -28,23 +29,23 @@ func NewRedisCacheCreateFunc(prefix string, ttl time.Duration) func(c *redis.Cli
 	return func(c *redis.Client) *Redis {
 		return &Redis{
 			Client: c,
-			Codec:  NewRedisCodec(c),
+			Cache:  NewRedisCache(c),
 			Prefix: prefix,
 			Ttl:    ttl,
 		}
 	}
 }
 
-func (r *Redis) Get(key string, obj interface{}) error {
-	err := r.Codec.Get(r.cacheKey(key), obj)
+func (r *Redis) Get(ctx context.Context, key string, obj interface{}) error {
+	err := r.Cache.Get(ctx, r.cacheKey(key), obj)
 	if err == redisCache.ErrCacheMiss {
 		return cache.Nil
 	}
 	return err
 }
 
-func (r *Redis) MGet(keys ...string) ([]interface{}, error) {
-	result, err := r.Client.MGet(r.cacheKeys(keys...)...).Result()
+func (r *Redis) MGet(ctx context.Context, keys ...string) ([]interface{}, error) {
+	result, err := r.Client.MGet(ctx, r.cacheKeys(keys...)...).Result()
 	for i := range result {
 		if result[i] == nil {
 			return nil, cache.Nil
@@ -56,22 +57,23 @@ func (r *Redis) MGet(keys ...string) ([]interface{}, error) {
 	return result, nil
 }
 
-func (r *Redis) Set(key string, obj interface{}) error {
-	return r.Codec.Set(&redisCache.Item{
-		Key:        r.cacheKey(key),
-		Object:     obj,
-		Expiration: r.Ttl,
+func (r *Redis) Set(ctx context.Context, key string, obj interface{}) error {
+	return r.Cache.Set(&redisCache.Item{
+		Ctx:   ctx,
+		Key:   r.cacheKey(key),
+		Value: obj,
+		TTL:   r.Ttl,
 	})
 }
 
-func (r *Redis) HSet(key string, field string, obj interface{}) error {
-	_, err := r.Client.HSet(r.cacheKey(key), field, obj).Result()
+func (r *Redis) HSet(ctx context.Context, key string, field string, obj interface{}) error {
+	_, err := r.Client.HSet(ctx, r.cacheKey(key), field, obj).Result()
 
 	return err
 }
 
-func (r *Redis) HGet(key string, field string) (string, error) {
-	hGet := r.Client.HGet(r.cacheKey(key), field)
+func (r *Redis) HGet(ctx context.Context, key string, field string) (string, error) {
+	hGet := r.Client.HGet(ctx, r.cacheKey(key), field)
 	if err := hGet.Err(); err != nil {
 		return "", err
 	}
@@ -79,8 +81,8 @@ func (r *Redis) HGet(key string, field string) (string, error) {
 	return hGet.Val(), nil
 }
 
-func (r *Redis) HGetAll(key string) (map[string]string, error) {
-	hGetAll := r.Client.HGetAll(r.cacheKey(key))
+func (r *Redis) HGetAll(ctx context.Context, key string) (map[string]string, error) {
+	hGetAll := r.Client.HGetAll(ctx, r.cacheKey(key))
 	if err := hGetAll.Err(); err != nil {
 		return nil, err
 	}
@@ -88,22 +90,22 @@ func (r *Redis) HGetAll(key string) (map[string]string, error) {
 	return hGetAll.Val(), nil
 }
 
-func (r *Redis) MSet(obj ...interface{}) error {
-	return r.Client.MSet(obj...).Err()
+func (r *Redis) MSet(ctx context.Context, obj ...interface{}) error {
+	return r.Client.MSet(ctx, obj...).Err()
 }
 
-func (r *Redis) Delete(key string) error {
-	err := r.Codec.Delete(r.cacheKey(key))
+func (r *Redis) Delete(ctx context.Context, key string) error {
+	err := r.Cache.Delete(ctx, r.cacheKey(key))
 	if err == redisCache.ErrCacheMiss {
 		return cache.Nil
 	}
 	return err
 }
 
-func (r *Redis) ScanD(match string) error {
-	scan := r.Client.Scan(0, r.cacheKey(match), 0).Iterator()
-	for scan.Next() {
-		err := r.Client.Del(scan.Val()).Err()
+func (r *Redis) ScanD(ctx context.Context, match string) error {
+	scan := r.Client.Scan(ctx, 0, r.cacheKey(match), 0).Iterator()
+	for scan.Next(ctx) {
+		err := r.Client.Del(ctx, scan.Val()).Err()
 		if err != nil {
 			return err
 		}
@@ -112,8 +114,8 @@ func (r *Redis) ScanD(match string) error {
 	return nil
 }
 
-func (r *Redis) HExpire(key string) error {
-	_, err := r.Client.Expire(r.cacheKey(key), r.Ttl).Result()
+func (r *Redis) HExpire(ctx context.Context, key string) error {
+	_, err := r.Client.Expire(ctx, r.cacheKey(key), r.Ttl).Result()
 	return err
 }
 
