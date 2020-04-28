@@ -11,10 +11,18 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type DbWithRetryTestSuite struct {
+type MainTestSuite struct {
 	suite.Suite
 	DB   *gorm.DB
 	mock sqlmock.Sqlmock
+}
+
+type DbRetryWithoutTransactionTestSuite struct {
+	MainTestSuite
+}
+
+type DbRetryWithTransactionTestSuite struct {
+	MainTestSuite
 }
 
 const (
@@ -23,10 +31,11 @@ const (
 )
 
 func TestDbWithRetryTestSuite(s *testing.T) {
-	suite.Run(s, new(DbWithRetryTestSuite))
+	suite.Run(s, new(DbRetryWithoutTransactionTestSuite))
+	suite.Run(s, new(DbRetryWithTransactionTestSuite))
 }
 
-func (s *DbWithRetryTestSuite) SetupSuite() {
+func (s *MainTestSuite) SetupSuite() {
 	var (
 		db  *sql.DB
 		err error
@@ -52,7 +61,7 @@ func (s *DbWithRetryTestSuite) SetupSuite() {
 	s.DB.LogMode(true)
 }
 
-func (s *DbWithRetryTestSuite) TestDbRetryWithoutTransaction() {
+func (s *DbRetryWithoutTransactionTestSuite) TestDbRetryWithoutTransaction() {
 	// Expect to retry 3 times: 2 failed and last 1 success
 	for i := 0; i <= defaultRetry; i++ {
 		if i != defaultRetry {
@@ -73,7 +82,7 @@ func (s *DbWithRetryTestSuite) TestDbRetryWithoutTransaction() {
 	}
 }
 
-func (s *DbWithRetryTestSuite) TestDbRetryWithTransaction() {
+func (s *DbRetryWithTransactionTestSuite) TestDbRetryWithTransaction() {
 	userID, productID := 2, 3
 
 	s.mock.ExpectBegin()
