@@ -1,7 +1,7 @@
 package _example
 
 import (
-	"bitbucket.org/snapmartinc/common-utils/connection"
+	"github.com/best-expendables/common-utils/connection"
 	"database/sql"
 	"fmt"
 	"github.com/jinzhu/gorm"

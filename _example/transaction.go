@@ -1,7 +1,7 @@
 package _example
 
 import (
-	"bitbucket.org/snapmartinc/common-utils/transaction"
+	"github.com/best-expendables/common-utils/transaction"
 	"context"
 )
 

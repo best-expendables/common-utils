@@ -1,7 +1,7 @@
 # EventBus client library
 
 ```
-import "bitbucket.org/snapmartinc/common-utils"
+import "github.com/best-expendables/common-utils"
 ```
 
 ## Usage

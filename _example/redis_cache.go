@@ -1,7 +1,7 @@
 package _example
 
 import (
-	"bitbucket.org/snapmartinc/common-utils/cache/redis_cache"
+	"github.com/best-expendables/common-utils/cache/redis_cache"
 	"context"
 	"fmt"
 	"github.com/go-redis/redis/v8"

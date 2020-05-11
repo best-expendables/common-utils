@@ -1,7 +1,7 @@
 package redis_cache
 
 import (
-	"bitbucket.org/snapmartinc/common-utils/cache"
+	"github.com/best-expendables/common-utils/cache"
 	"context"
 	"time"
 

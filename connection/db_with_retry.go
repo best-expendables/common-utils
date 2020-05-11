@@ -1,7 +1,7 @@
 package connection
 
 import (
-	"bitbucket.org/snapmartinc/logger"
+	"github.com/best-expendables/logger"
 	"context"
 	"database/sql"
 	"github.com/pkg/errors"
