@@ -1,9 +1,9 @@
 package connection
 
 import (
-	"github.com/best-expendables/logger"
 	"context"
 	"database/sql"
+	"github.com/best-expendables/logger"
 	"github.com/pkg/errors"
 	"strings"
 	"time"
