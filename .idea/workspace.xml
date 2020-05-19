@@ -3,27 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="331eea4b-cfdd-488f-93d9-86192ffa1924" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/redis_cache/redis.go" beforeDir="false" afterPath="$PROJECT_DIR$/cache/redis_cache/redis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection/db_with_retry.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection/db_with_retry.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>bitbucket.org/snapmartinc</find>
-      <find>bitbucket.org/snapmartinc/trace</find>
-    </findStrings>
-    <replaceStrings>
-      <replace />
-      <replace>github.com/best-expendables</replace>
-    </replaceStrings>
-    <dirStrings>
-      <dir>$PROJECT_DIR$</dir>
-    </dirStrings>
   </component>
   <component name="GOROOT" path="/usr/local/Cellar/go@1.12/1.12.16/libexec" />
   <component name="Git.Settings">
