@@ -2,15 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="331eea4b-cfdd-488f-93d9-86192ffa1924" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repository/filter/basic_filter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repository/filter/basic_order.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repository/filter/filter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repository/filter/pagination_filter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repository/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repository/postgresql/base.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="GOROOT" path="/usr/local/Cellar/go@1.12/1.12.16/libexec" />
+  <component name="GOROOT" path="$USER_HOME$/go/go1.15.1" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -38,6 +42,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="false" />
@@ -72,6 +77,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TestHistory">
     <history-entry file="go_test_common-utils - 2020.05.11 at 13h 14m 14s.xml">
       <configuration name="go test common-utils" configurationId="GoTestRunConfiguration" />
@@ -81,15 +87,15 @@
     </history-entry>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="397" y="189" key="SettingsEditor" timestamp="1589878684977">
-      <screen x="0" y="23" width="1792" height="1054" />
+    <state x="609" y="445" key="#GOROOT" timestamp="1604312359010">
+      <screen x="0" y="23" width="1680" height="971" />
     </state>
-    <state x="397" y="189" key="SettingsEditor/0.23.1792.1054@0.23.1792.1054" timestamp="1589878684977" />
+    <state x="609" y="445" key="#GOROOT/0.23.1680.971@0.23.1680.971" timestamp="1604312359010" />
   </component>
 </project>
