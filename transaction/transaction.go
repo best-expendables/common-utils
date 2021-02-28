@@ -2,7 +2,7 @@ package transaction
 
 import (
 	"context"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type contextKey string

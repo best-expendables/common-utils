@@ -6,12 +6,15 @@ import (
 	"reflect"
 	"strings"
 
+	nrcontext "github.com/best-expendables/newrelic-context"
+	"github.com/fatih/structs"
+	"gorm.io/gorm/schema"
+
 	"github.com/best-expendables/common-utils/model"
 	"github.com/best-expendables/common-utils/repository"
 	"github.com/best-expendables/common-utils/repository/filter"
 	"github.com/best-expendables/common-utils/transaction"
-	nrcontext "github.com/best-expendables/newrelic-context"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type BaseRepo struct {
@@ -53,7 +56,7 @@ func (r *BaseRepo) CreateOrUpdate(ctx context.Context, m model.Model, query inte
 }
 
 func (r *BaseRepo) Update(ctx context.Context, m model.Model, attrs ...interface{}) error {
-	return r.GetDB(ctx).Model(m).Update(attrs...).Error
+	return r.GetDB(ctx).Model(m).Updates(toSearchableMap(attrs...)).Error
 }
 
 func (r *BaseRepo) Updates(ctx context.Context, m model.Model, params interface{}) error {
@@ -101,7 +104,7 @@ func (r *BaseRepo) Save(ctx context.Context, m model.Model) error {
 
 func (r *BaseRepo) DeleteByID(ctx context.Context, m model.Model, id string) error {
 	db := r.GetDB(ctx).Where("id = ?", id).Take(m)
-	if db.Error != nil || m.GetId() == "" {
+	if db.Error != nil || m.GetID() == "" {
 		return repository.RecordNotFound
 	}
 	return db.Delete(m).Error
@@ -116,7 +119,7 @@ func (r *BaseRepo) BulkCreate(ctx context.Context, arr []model.Model) error {
 	var valueArgs []interface{}
 	properties := getStructProperties(arr[0])
 	for _, val := range arr {
-		_ = val.BeforeCreate(r.GetDB(ctx).NewScope(val))
+		_ = val.BeforeCreate(r.GetDB(ctx))
 		ri := redirectReflectPtrToElem(reflect.ValueOf(val))
 
 		var valueKeys []string
@@ -129,7 +132,7 @@ func (r *BaseRepo) BulkCreate(ctx context.Context, arr []model.Model) error {
 
 	sql := fmt.Sprintf(
 		"INSERT INTO %s (%s) VALUES (%s)",
-		r.GetDB(ctx).NewScope(arr[0]).TableName(),
+		r.GetDB(ctx).Statement.Table,
 		strings.Join(transformPropertiesToFieldNames(properties), ","),
 		strings.Join(valueStrings, "),("))
 
@@ -138,8 +141,9 @@ func (r *BaseRepo) BulkCreate(ctx context.Context, arr []model.Model) error {
 
 func transformPropertiesToFieldNames(properties []string) []string {
 	var fieldNames []string
+	namer := schema.NamingStrategy{SingularTable: true}
 	for _, property := range properties {
-		fieldNames = append(fieldNames, gorm.ToDBName(property))
+		fieldNames = append(fieldNames, namer.ColumnName("", property))
 	}
 
 	return fieldNames
@@ -166,4 +170,31 @@ func redirectReflectPtrToElem(reflectValue reflect.Value) reflect.Value {
 		reflectValue = reflectValue.Elem()
 	}
 	return reflectValue
+}
+
+func toSearchableMap(attrs ...interface{}) (result interface{}) {
+	if len(attrs) > 1 {
+		if str, ok := attrs[0].(string); ok {
+			result = map[string]interface{}{str: attrs[1]}
+		}
+	} else if len(attrs) == 1 {
+		if attr, ok := attrs[0].(map[string]interface{}); ok {
+			result = attr
+		}
+
+		if attr, ok := attrs[0].(interface{}); ok {
+			s := structs.New(attr)
+			s.TagName = "json"
+			m := s.Map()
+
+			value := make(map[string]interface{}, len(m))
+			var ns schema.NamingStrategy
+			for col, val := range m {
+				dbCol := ns.ColumnName("", col)
+				value[dbCol] = val
+			}
+			result = value
+		}
+	}
+	return
 }

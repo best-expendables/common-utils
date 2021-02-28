@@ -1,9 +1,7 @@
 package filter
 
-// swagger:parameters basicOrder
 type BasicOrder struct {
-	// Field which you want to order by
-	OrderBy []string `json:"order_by" schema:"order_by"`
+	OrderBy []string `json:"orderBy"`
 }
 
 func NewBasicOrder() *BasicOrder {

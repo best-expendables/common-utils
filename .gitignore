@@ -1,4 +1,4 @@
-/bin/
-/pkg/
+vendor
+profile.coverprofile
+overalls.coverprofile
 .idea
-.DS_Store

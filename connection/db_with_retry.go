@@ -3,10 +3,11 @@ package connection
 import (
 	"context"
 	"database/sql"
-	"github.com/best-expendables/logger"
-	"github.com/pkg/errors"
 	"strings"
 	"time"
+
+	"github.com/best-expendables/logger"
+	"github.com/pkg/errors"
 )
 
 type dbRetryConf struct {
@@ -31,6 +32,7 @@ func makeRetryConfig(conf DBWithRetryConf) []dbRetryConf {
 	// Connection Reset By Peer
 	retryConf = append(retryConf, dbRetryConf{"connection reset by peer", conf.DefaultRetry, conf.DefaultDelay})
 	retryConf = append(retryConf, dbRetryConf{"write: broken pipe", conf.DefaultRetry, conf.DefaultDelay})
+	retryConf = append(retryConf, dbRetryConf{"connection refused", conf.DefaultRetry, conf.DefaultDelay})
 	//....
 	return retryConf
 }

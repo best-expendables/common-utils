@@ -2,8 +2,9 @@ package redis_cache
 
 import (
 	"context"
-	"github.com/best-expendables/common-utils/cache"
 	"time"
+
+	"github.com/best-expendables/common-utils/cache"
 
 	redisCache "github.com/go-redis/cache/v8"
 	"github.com/go-redis/redis/v8"

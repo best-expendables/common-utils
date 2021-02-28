@@ -1,101 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="331eea4b-cfdd-488f-93d9-86192ffa1924" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/repository/filter/basic_filter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/filter/basic_order.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/filter/filter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/filter/pagination_filter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/interface.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/postgresql/base.go" afterDir="false" />
-    </list>
+    <list default="true" id="5030d883-ae8d-4016-90cf-59212d9f241d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="GOROOT" path="$USER_HOME$/go/go1.15.1" />
+  <component name="GOROOT" path="/usr/local/Cellar/go/1.14/libexec" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/common-utils.iml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="797" />
-  </component>
-  <component name="ProjectId" id="1c7SxCNL3P85CZKd3g9nCIxATRD" />
+  <component name="ProjectId" id="1jrOmuftIlFPMw36bcwvA3GtFiq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="GO_FMT" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="configurable.Global.GOPATH.is.expanded" value="true" />
-    <property name="configurable.Module.GOPATH.is.expanded" value="false" />
-    <property name="configurable.Project.GOPATH.is.expanded" value="true" />
-    <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="go test common-utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="common-utils" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="DIRECTORY" />
-      <package value="common-utils" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Go Test.go test common-utils" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TestHistory">
-    <history-entry file="go_test_common-utils - 2020.05.11 at 13h 14m 14s.xml">
-      <configuration name="go test common-utils" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="go_test_common-utils - 2020.05.11 at 13h 16m 13s.xml">
-      <configuration name="go test common-utils" configurationId="GoTestRunConfiguration" />
-    </history-entry>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update column name format" />
+    <option name="LAST_COMMIT_MESSAGE" value="update column name format" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+    <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state x="609" y="445" key="#GOROOT" timestamp="1604312359010">
-      <screen x="0" y="23" width="1680" height="971" />
+    <state x="354" y="126" key="CommitChangelistDialog2" timestamp="1604633205240">
+      <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="609" y="445" key="#GOROOT/0.23.1680.971@0.23.1680.971" timestamp="1604312359010" />
+    <state x="354" y="126" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1604633205240" />
+    <state x="440" y="253" key="Vcs.Push.Dialog.v2" timestamp="1604633208997">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="440" y="253" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1604633208997" />
+    <state x="498" y="282" width="683" height="486" key="find.popup" timestamp="1606119583863">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="498" y="282" width="683" height="486" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1606119583863" />
   </component>
 </project>

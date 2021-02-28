@@ -1,16 +1,16 @@
 package model
 
 import (
+	"gorm.io/gorm"
 	"time"
 
 	"github.com/gofrs/uuid"
-	"github.com/jinzhu/gorm"
 )
 
 type Model interface {
-	GetId() string
-	BeforeCreate(scope *gorm.Scope) error
-	BeforeUpdate(scope *gorm.Scope) error
+	GetID() string
+	BeforeCreate(tx *gorm.DB) error
+	BeforeUpdate(tx *gorm.DB) error
 	RevisionKey() string
 }
 
@@ -20,47 +20,35 @@ type BaseModel struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func (m *BaseModel) GetId() string {
+func (m *BaseModel) GetID() string {
 	return m.Id
 }
 
-func (m *BaseModel) BeforeCreate(scope *gorm.Scope) error {
+func (m *BaseModel) BeforeCreate(tx *gorm.DB) error {
 	uuid4, err := uuid.NewV4()
 	if err != nil {
 		return err
 	}
 
 	if m.Id == "" {
-		err := scope.SetColumn("Id", uuid4.String())
-		if err != nil {
-			return err
-		}
+		tx.Statement.SetColumn("Id", uuid4.String())
 	}
 
 	now := time.Now()
 	now = now.Round(time.Second)
 	if m.CreatedAt.IsZero() {
-		err := scope.SetColumn("CreatedAt", now)
-		if err != nil {
-			return err
-		}
+		tx.Statement.SetColumn("CreatedAt", now)
 	}
 	if m.UpdatedAt.IsZero() {
-		err := scope.SetColumn("UpdatedAt", now)
-		if err != nil {
-			return err
-		}
+		tx.Statement.SetColumn("UpdatedAt", now)
 	}
 	return nil
 }
 
-func (m *BaseModel) BeforeUpdate(scope *gorm.Scope) error {
+func (m *BaseModel) BeforeUpdate(tx *gorm.DB) error {
 	now := time.Now()
 	now = now.Round(time.Second)
-	err := scope.SetColumn("UpdatedAt", now)
-	if err != nil {
-		return err
-	}
+	tx.Statement.SetColumn("UpdatedAt", now)
 	return nil
 }
 

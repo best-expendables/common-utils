@@ -7,10 +7,10 @@ const (
 
 type PaginationFilter struct {
 	BasicFilter
-	BasicOrder `swaggerignore:"true"`
+	BasicOrder
 
-	Page    int `json:"page" schema:"page"`
-	PerPage int `json:"per_page" schema:"per_page"`
+	Page    int `json:"page"`
+	PerPage int `json:"perPage"`
 }
 
 func NewPaginationFilter() *PaginationFilter {
